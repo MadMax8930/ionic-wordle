@@ -1,10 +1,10 @@
-div.parent {
+.parent {
   display: flex;
   align-items: center;
   gap: 3px;
 }
 
-div.child {
+.child {
   height: 45px;
   width: 45px;
   border: 2px solid skyblue;
@@ -32,5 +32,6 @@ div.child {
 
 .limegreen {
   background: limegreen;
+  color: green;
 }
 

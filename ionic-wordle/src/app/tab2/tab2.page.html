@@ -1,20 +1,20 @@
+<ion-content [fullscreen]="true">
 
-  <ion-content [fullscreen]="true">
-    <ion-header [translucent]="true">
-      <ion-toolbar>
-        <ion-title>
-          Tab 2
-        </ion-title>
-      </ion-toolbar>
-    </ion-header>
+        <ion-header [translucent]="true">
+          <ion-toolbar>
+            <ion-title>
+              Wordle
+            </ion-title>
+          </ion-toolbar>
+        </ion-header>
 
-    <div class="tiles">
+
     <ion-grid>
       <ng-container *ngFor="let item of boxes">
         <ion-row>
           <div class="parent">
             <ng-container *ngFor="let innerItem of item">
-              <ion-col>
+              <ion-col no-padding>
                 <div class="child">{{innerItem.key}}</div>
               </ion-col>
             </ng-container>
@@ -22,7 +22,6 @@
         </ion-row>
       </ng-container>
     </ion-grid>
-  </div>
 
 
     <div class="keyboard">

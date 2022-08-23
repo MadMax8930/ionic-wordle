@@ -1,17 +1,49 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Login
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<div class="login-form form-signin text-center" id="login-position">
+    <!-- Login Form -->
+    <form (ngSubmit) ="submitForm()" [formGroup]='loginForm'>
+      <div class="form">
+          <div class="title">Welcome to Wordle</div>
+          <!-- Email -->
+          <div class="form-floating input-container">
+            <input type="email"
+                   class="form-control"
+                   for="email"
+                   placeholder="Email"
+                   name="email"
+                   id="email"
+                   formControlName="email">
+              <div class="cut"></div>
+            <label for="email">Email</label>
+          </div>
+          <!-- Password -->
+          <div class="form-floating input-container">
+            <input type="password"
+                   class="form-control"
+                   for="password"
+                   placeholder="Password"
+                   name="password"
+                   formControlName="password">
+            <label id="password">Password</label>
+          </div>
+          <!-- Register Redirect -->
+          <div class="text-register">
+            <p>Not a member? <a href='/register'>Register</a></p>
+          </div>
+          <!-- Submit Form -->
+          <button class="btn btn-lg btn-primary submit"
+                  type="submit"
+                  [disabled]="loginForm.invalid">LOGIN
+          </button>
+      </div>
+      </form>
+    </div>
 </ion-content>

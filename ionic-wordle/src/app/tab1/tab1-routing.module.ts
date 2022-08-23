@@ -3,10 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Tab1Page } from './tab1.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: Tab1Page,
-  }
+  {path: 'login', component: Tab1Page},
 ];
 
 @NgModule({

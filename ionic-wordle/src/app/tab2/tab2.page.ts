@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -83,12 +84,12 @@ export class Tab2Page {
 
   submitData(){
 
-    let clonedCopyOfActualGuess = this.actualResult;
+    let clonedGuess= this.actualResult;
 
     // CORRECT WORD
     console.log(`data submitted, ENTER pressed`);
     if (this.columnIndex === 5 && this.rowIndex < 6) {
-      const guessedLetters = this.boxes[this.rowIndex].map((item) => {return item.key});
+      const guessedLetters = this.boxes[this.rowIndex].map((item) => item.key);
       const guessedWord = guessedLetters.join('');
       console.log({guessedWord});
       if (this.actualResult === guessedWord) {
@@ -99,20 +100,20 @@ export class Tab2Page {
       // colors
       this.boxes[this.rowIndex].map((item, index) => {
         if(item.key === this.actualResult[index]) {
-          item.class=`limegreen`;
-          clonedCopyOfActualGuess = clonedCopyOfActualGuess.replace(item.key, '');
+          clonedGuess = clonedGuess.replace(item.key, '');
+          item.class='green';
         }
       });
 
-      this.boxes[this.rowIndex].map((item, index) => {
-        if(clonedCopyOfActualGuess.includes(item.key)) {
-          item.class=`gold`;
+      this.boxes[this.rowIndex].map((item) => {
+        if(clonedGuess.includes(item.key)) {
+          item.class='yellow';
         }
       });
 
-      this.boxes[this.rowIndex].map((item, index) => {
+      this.boxes[this.rowIndex].map((item) => {
         if(item.class === '') {
-          item.class=`grey`;
+          item.class='grey';
         }
       });
 
@@ -121,3 +122,4 @@ export class Tab2Page {
     }
   }
 }
+

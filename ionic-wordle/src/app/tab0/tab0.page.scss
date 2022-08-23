@@ -1,4 +1,4 @@
-.login-form {
+.register-form {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,10 @@
   .form-control{
     width: 400px;
     margin-bottom: 1rem;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
   }
 
   .title {
