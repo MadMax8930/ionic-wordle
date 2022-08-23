@@ -10,7 +10,7 @@
   right: 0;
 
   .form-control{
-    width: 400px;
+    width: 200px;
     margin-bottom: 1rem;
     display: flex;
     justify-content: center;
@@ -29,5 +29,7 @@
     font-style: oblique;
     font-size: xx-large;
     font-family:'Courier New', Courier, monospace;
+    background: white;
+    color: black;
   }
 }
