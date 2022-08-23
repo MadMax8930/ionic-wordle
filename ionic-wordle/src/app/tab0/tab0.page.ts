@@ -35,7 +35,7 @@ export class Tab0Page implements OnInit {
     .subscribe((response) => {
         console.log('Account successfully created!');
         console.log(response);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/tabs/tab1']);
     });
   }
 
