@@ -31,8 +31,10 @@ export class AuthService {
             console.log(resp);
             localStorage.setItem('TOKEN', resp.accessToken);
             localStorage.setItem('USER_EMAIL', resp.email);
+            localStorage.setItem('USER_NAME', resp.userName);
             console.log('Token Save');
             console.log(resp.email);
+            console.log(resp.userName);
             return resp;
           }
         )
@@ -54,6 +56,7 @@ export class AuthService {
     logout() {
       localStorage.removeItem('TOKEN');
       localStorage.removeItem('USER_EMAIL');
-      this.router.navigate(['/']);
+      localStorage.removeItem('USER_NAME');
+      this.router.navigate(['/tabs/tab1']);
     }
 }

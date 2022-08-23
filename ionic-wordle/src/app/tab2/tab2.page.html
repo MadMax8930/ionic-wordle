@@ -1,13 +1,12 @@
+
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>
+        Wordle
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
 <ion-content [fullscreen]="true">
-
-        <ion-header [translucent]="true">
-          <ion-toolbar>
-            <ion-title>
-              Wordle
-            </ion-title>
-          </ion-toolbar>
-        </ion-header>
-
 
     <ion-grid>
       <ng-container *ngFor="let item of boxes">
@@ -37,4 +36,5 @@
        </ng-container>
      </ng-container>
     </div>
+    <ion-button color="danger" class="logout" (click)="logout()">Logout</ion-button>
   </ion-content>
