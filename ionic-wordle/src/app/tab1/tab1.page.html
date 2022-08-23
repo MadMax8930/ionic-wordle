@@ -13,6 +13,7 @@
       <div class="form">
           <div class="title">Welcome to Wordle</div>
           <!-- Email -->
+          <label for="email">Email</label>
           <div class="form-floating input-container">
             <input type="email"
                    class="form-control"
@@ -22,23 +23,23 @@
                    id="email"
                    formControlName="email">
               <div class="cut"></div>
-            <label for="email">Email</label>
           </div>
           <!-- Password -->
+          <label id="password">Pwd</label>
           <div class="form-floating input-container">
             <input type="password"
-                   class="form-control"
-                   for="password"
-                   placeholder="Password"
-                   name="password"
-                   formControlName="password">
-            <label id="password">Password</label>
+            class="form-control"
+            for="password"
+            placeholder="Password"
+            name="password"
+            formControlName="password">
           </div>
           <!-- Register Redirect -->
           <div class="text-register">
             <p>Not a member? <a href='/tabs/tab0'>Register</a></p>
           </div>
           <!-- Submit Form -->
+          <br/>
           <button class="btn btn-lg btn-primary submit"
                   type="submit"
                   [disabled]="loginForm.invalid">LOGIN

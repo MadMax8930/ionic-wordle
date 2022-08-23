@@ -8,41 +8,42 @@
   <div class="register-form text-center" id="register-position">
     <form (ngSubmit) ="submitForm()" [formGroup]="registerForm">
       <div class="form">
-          <div class="title">Registration</div>
+          <div class="title">Welcome to Wordle</div>
             <!-- userName -->
             <div class="form-floating input-container">
+            <label for="lastName">Pseudo</label>
             <input type="text"
                     class="form-control input"
                     id="lastName"
                     placeholder="Name"
                     formControlName= "lastName">
-            <label for="lastName">Pseudo</label>
           </div>
             <!-- Email -->
             <div class="form-floating input-container">
+              <label for="email">Email</label>
               <input type="email"
                      class="form-control"
                      id="email"
                      placeholder="Email"
                      formControlName="email">
-              <label for="email">Email</label>
             </div>
             <!-- Password -->
             <div class="form-floating input-container">
+              <label for="pwd">Pwd</label>
               <input type="password"
                      class="form-control"
                      id="pwd"
                      placeholder="Password"
                      formControlName="password">
-              <label for="pwd">Password</label>
             </div>
 
 
           <!-- Login Redirect -->
           <div class="text-login">
-            <p>Already a member? Please <a href='/tabs/tabs1'>Login</a></p>
+            <p>Already a member? Please <a href='/tabs/tab1'>Login</a></p>
           </div>
           <!-- Submit Form -->
+          <br/>
           <button class="btn btn-lg btn-primary submit"
                   type="submit"
                   [disabled]="registerForm.invalid">REGISTER
