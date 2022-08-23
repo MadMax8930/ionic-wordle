@@ -20,11 +20,11 @@ export class AuthService {
     ) { }
 
     register(user: User): Observable<any> {
-      return this.http.post<any>(this.baseUrl + '/register', user);
+      return this.http.post<any>(this.baseUrl + '/auth/register', user);
     }
 
     login(user: User): Observable<any> {
-      return this.http.post<any>(this.baseUrl + '/login', user)
+      return this.http.post<any>(this.baseUrl + '/auth/login', user)
       .pipe(
         map(
           (resp: any) => {
