@@ -42,10 +42,12 @@ export class AuthService {
     getIdByToken(){
       const token = localStorage.getItem('TOKEN');
       const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(token!);
-      console.log(decodedToken);
-      const id = decodedToken.userId;
-      return id;
+      if( token ) {
+        const decodedToken = helper.decodeToken(token);
+        console.log(decodedToken);
+        const id = decodedToken.userId;
+        return id;
+      }
     }
 
 
