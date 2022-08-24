@@ -1,40 +1,62 @@
-
-  <ion-header [translucent]="true">
+ <ion-header [translucent]="true">
     <ion-toolbar>
       <ion-title>
-        Wordle
+        Home
       </ion-title>
     </ion-toolbar>
   </ion-header>
-<ion-content [fullscreen]="true">
 
+  <ion-content [fullscreen]="true">
+    <div class="container">
+      <div class="title-container">
+        <div class="title">Wordle</div>
+        <div class="subtitle">
+          Assad | Lobna | Max
+        </div>
 
-    <ion-grid>
-      <ng-container *ngFor="let item of boxes">
-        <ion-row>
-          <div class="parent">
-            <ng-container *ngFor="let innerItem of item">
-              <ion-col no-padding>
-                <div class="child">{{innerItem.key}}</div>
-              </ion-col>
-            </ng-container>
+      </div>
+
+      <div class="main">
+        <div class="try-container" *ngFor="let try of tries" #tryContainer>
+          <div class="letter-container" *ngFor="let letter of try.letters"
+              [class.match]="letter.state === letterState.FULL_MATCH"
+              [class.partial]="letter.state === letterState.PARTIAL_MATCH"
+              [class.wrong]="letter.state === letterState.WRONG"
+              [class.has-text]="letter.text !== ''">
+            {{letter.text}}
           </div>
-        </ion-row>
-      </ng-container>
-    </ion-grid>
+        </div>
+      </div>
 
+      <div class="keyboard-container">
+        <div [class]="['row' + i, 'row'].join(' ')"
+            *ngFor="let row of keyboardRows; let i = index">
+          <div *ngFor="let key of row" [class]="getKeyClass(key)"
+              [class.enter]="key === 'Enter'"
+              (click)="handleClickKey(key)">
+            <div *ngIf="key !== 'Backspace'; else backspace">
+              {{key}}
+            </div>
+            <ng-template #backspace>
+              <ion-icon name="backspace-outline"></ion-icon>
+            </ng-template>
+          </div>
+        </div>
+      </div>
 
-    <div class="keyboard">
-     <ng-container *ngFor="let item of keyboad">
-       <ng-container *ngIf="(item.key !== 'ENTER') && (item.key !== 'BACKSPACE')">
-         <button (click)="handleChange(item.key)">{{item.key}}</button>
-       </ng-container>
-       <ng-container *ngIf="item.key === 'ENTER'">
-         <button style="width: 70px;" (click)="handleChange(item.key)">{{item.key}}</button>
-       </ng-container>
-       <ng-container *ngIf="item.key === 'BACKSPACE'">
-         <button style="width: 100px;" (click)="handleChange(item.key)">{{item.key}}</button>
-       </ng-container>
-     </ng-container>
+      <div class="info-msg"
+          [class.show]="infoMsg !== ''"
+          [class.fade-out]="fadeOutInfoMessage">
+        {{infoMsg}}
+      </div>
+
+      <div class="share-dialog-container" [class.show]="showShareDialogContainer">
+        <div class="share-dialog" [class.show]="showShareDialog">
+          <button (click)="handleClickShare()">Share</button>
+        </div>
+      </div>
     </div>
+  <ion-button color="danger" class="logout" (click)="logout()">Logout</ion-button>
+
   </ion-content>
+

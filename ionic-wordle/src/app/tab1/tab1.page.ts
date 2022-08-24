@@ -35,7 +35,7 @@ export class Tab1Page implements OnInit {
     .subscribe((response: any) => {
         console.log('User successfully logged in!', response);
         console.log(response);
-        this.router.navigate(['/tabs/tab3']);
+        this.router.navigate(['/tabs/tab2']);
       });
   }
 
