@@ -10,18 +10,15 @@
     <div class="container">
       <div class="title-container">
         <div class="title">Wordle</div>
-        <div class="subtitle">
-          Assad | Lobna | Max
-        </div>
-
+        <div class="subtitle">Assad | Lobna | Max</div>
       </div>
 
       <div class="main">
         <div class="try-container" *ngFor="let try of tries" #tryContainer>
           <div class="letter-container" *ngFor="let letter of try.letters"
-              [class.match]="letter.state === letterState.FULL_MATCH"
-              [class.partial]="letter.state === letterState.PARTIAL_MATCH"
-              [class.wrong]="letter.state === letterState.WRONG"
+              [class.match]="letter.state === letterState.fullMatchState"
+              [class.partial]="letter.state === letterState.partialMatchState"
+              [class.wrong]="letter.state === letterState.wrongMatchState"
               [class.has-text]="letter.text !== ''">
             {{letter.text}}
           </div>
@@ -56,7 +53,7 @@
         </div>
       </div>
     </div>
-  <ion-button color="danger" class="logout" (click)="logout()">Logout</ion-button>
+  <ion-button color="danger" style="font-size: 8px;" class="logout" (click)="logout()">Logout</ion-button>
 
   </ion-content>
 

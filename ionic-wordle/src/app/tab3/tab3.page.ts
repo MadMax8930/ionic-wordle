@@ -50,7 +50,6 @@ export class Tab3Page {
     [{class:'', key: ''},{class:'', key: ''},{class:'', key: ''},{class:'', key: ''},{class:'', key: ''}],
     [{class:'', key: ''},{class:'', key: ''},{class:'', key: ''},{class:'', key: ''},{class:'', key: ''}],
   ];
-
   rowIndex=0;
   columnIndex=0;
 

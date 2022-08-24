@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export enum LetterState {
-  WRONG, // you know.
-  PARTIAL_MATCH, // letter in word but position is wrong.
-  FULL_MATCH, // letter and position are all correct.
-  PENDING,  // before the current try is submitted.
+  wrongMatchState, // you know.
+  partialMatchState, // letter in word but position is wrong.
+  fullMatchState, // letter and position are all correct.
+  pendingState,  // before the current try is submitted.
 }

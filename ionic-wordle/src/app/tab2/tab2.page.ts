@@ -90,7 +90,7 @@ export class Tab2Page {
     for (let i = 0; i < NUM_TRIES; i++) {
       const letters: Letter[] = [];
       for (let j = 0; j < WORD_LENGTH; j++) {
-        letters.push({text: '', state: this.letterState.PENDING});
+        letters.push({text: '', state: this.letterState.pendingState});
       }
       this.tries.push({letters});
     }
@@ -135,11 +135,11 @@ export class Tab2Page {
   getKeyClass(key: string): string {
     const state = this.curLetterStates[key.toLowerCase()];
     switch (state) {
-      case this.letterState.FULL_MATCH:
+      case this.letterState.fullMatchState:
         return 'match key';
-      case this.letterState.PARTIAL_MATCH:
+      case this.letterState.partialMatchState:
         return 'partial key';
-      case this.letterState.WRONG:
+      case this.letterState.wrongMatchState:
         return 'wrong key';
       default:
         return 'key';
@@ -183,13 +183,13 @@ export class Tab2Page {
       for (let j = 0; j < WORD_LENGTH; j++) {
         const letter = this.tries[i].letters[j];
         switch (letter.state) {
-          case this.letterState.FULL_MATCH:
+          case this.letterState.fullMatchState:
             clipboardContent += '🟩';
             break;
-          case this.letterState.PARTIAL_MATCH:
+          case this.letterState.partialMatchState:
             clipboardContent += '🟨';
             break;
-          case this.letterState.WRONG:
+          case this.letterState.wrongMatchState:
             clipboardContent += '⬜';
             break;
           default:
@@ -233,7 +233,7 @@ export class Tab2Page {
       const expected = this.targetWord[i];
       const curLetter = curTry.letters[i];
       const got = curLetter.text.toLowerCase();
-      let state = this.letterState.WRONG;
+      let state = this.letterState.wrongMatchState;
       // Need to make sure only performs the check when the letter has not been
       // checked before.
       //
@@ -242,11 +242,11 @@ export class Tab2Page {
       // is no more "a" left in the target word that has not been checked.
       if (expected === got && targetWordLetterCounts[got] > 0) {
         targetWordLetterCounts[expected]--;
-        state = this.letterState.FULL_MATCH;
+        state = this.letterState.fullMatchState;
       } else if (
           this.targetWord.includes(got) && targetWordLetterCounts[got] > 0) {
         targetWordLetterCounts[got]--;
-        state = this.letterState.PARTIAL_MATCH;
+        state = this.letterState.partialMatchState;
       }
       states.push(state);
     }
@@ -297,7 +297,7 @@ export class Tab2Page {
     this.numSubmittedTries++;
 
     // Check if all letters in the current try are correct.
-    if (states.every(state => state === this.letterState.FULL_MATCH)) {
+    if (states.every(state => state === this.letterState.fullMatchState)) {
       this.showInfoMessage('NICE!');
       this.won = true;
       // Bounce animation.
