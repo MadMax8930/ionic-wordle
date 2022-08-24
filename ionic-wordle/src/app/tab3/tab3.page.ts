@@ -212,20 +212,6 @@ export class Tab3Page {
     }
 
     // Check if the current try is a word in the list.
-    const wordFromCurTry =
-        curTry.letters.map(letter => letter.text).join('').toUpperCase();
-    if (!WORDS.includes(wordFromCurTry)) {
-      this.showInfoMessage('Not in word list');
-      // Shake the current row.
-      const tryContainer =
-          this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
-          HTMLElement;
-      tryContainer.classList.add('shake');
-      setTimeout(() => {
-        tryContainer.classList.remove('shake');
-      }, 500);
-      return;
-    }
 
     // Check if the current try matches the target word.
 
@@ -307,11 +293,6 @@ export class Tab3Page {
       this.showInfoMessage('NICE!');
       this.won = true;
       // Bounce animation.
-      for (let i = 0; i < letterEles.length; i++) {
-        const curLetterEle = letterEles[i];
-        curLetterEle.classList.add('bounce');
-        await this.wait(160);
-      }
       this.showShare();
       return;
     }
