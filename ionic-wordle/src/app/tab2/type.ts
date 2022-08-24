@@ -1,7 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/naming-convention
+// Un essai
+export interface Essai {
+  letters: Letter[];
+}
+
+// Une lettre dans un essai
+export interface Letter {
+  text: string;
+  state: LetterState;
+}
+
+// Enum qui store tous les essais
 export enum LetterState {
-  wrongMatchState, // you know.
-  partialMatchState, // letter in word but position is wrong.
-  fullMatchState, // letter and position are all correct.
-  pendingState,  // before the current try is submitted.
+  wrongMatchState, // L
+  partialMatchState, // letter + position -
+  fullMatchState, // lettre + position +
+  pendingState,  // avant que le current essai soit submit
 }

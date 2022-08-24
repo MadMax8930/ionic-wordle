@@ -1,0 +1,24 @@
+{
+  "word":
+  [  {
+    "id":"1",
+    "name":"HOUSE"
+  },
+  {
+    "id":"2",
+    "name":"ASSAD"
+  },
+  {
+    "id":"3",
+    "name":"FANTA"
+  },
+  {
+    "id":"4",
+    "name":"MOUSE"
+  },
+  {
+    "id":"5",
+    "name":"BROKE"
+  }
+]
+}

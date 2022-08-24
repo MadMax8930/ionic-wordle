@@ -1,0 +1,64 @@
+{
+  "statistics": [
+      {
+        "word": "house",
+        "tries": 5,
+        "guessed": true
+      },
+      {
+        "word": "mouse",
+        "tries": 1,
+        "guessed": true
+      },
+      {
+        "word": "watch",
+        "tries": 2,
+        "guessed": true
+      },
+      {
+        "word": "horse",
+        "tries": 6,
+        "guessed": false
+      },
+      {
+        "word": "crazy",
+        "tries": 2,
+        "guessed": true
+      },
+      {
+        "word": "birds",
+        "tries": 6,
+        "guessed": false
+      },
+      {
+        "word": "pools",
+        "tries": 4,
+        "guessed": true
+      },
+      {
+        "word": "cloud",
+        "tries": 3,
+        "guessed": true
+      },
+      {
+        "word": "world",
+        "tries": 4,
+        "guessed": true
+      },
+      {
+        "word": "plane",
+        "tries": 4,
+        "guessed": true
+      },
+      {
+        "word": "sword",
+        "tries": 6,
+        "guessed": false
+      },
+      {
+        "word": "three",
+        "tries": 3,
+        "guessed": true
+      }
+  ]
+}

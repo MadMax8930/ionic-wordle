@@ -5,10 +5,12 @@
 </ion-header>
 
 <ion-content>
+  <div class="wrap">
   <div class="register-form text-center" id="register-position">
     <form (ngSubmit) ="submitForm()" [formGroup]="registerForm">
       <div class="form">
-          <div class="title">Welcome to Wordle</div>
+        <div class="title">Register</div>
+        <img src="../../assets/logo.png" style="width: 200px;"/><hr/>
             <!-- userName -->
             <div class="form-floating input-container">
             <label for="username">Pseudo</label>
@@ -40,16 +42,17 @@
 
           <!-- Login Redirect -->
           <div class="text-login">
-            <p>Already a member? Please <a href='/tabs/tab1'>Login</a></p>
+            <p>Already a member? <a class="redir"href='/tabs/tab1'>Login</a></p>
           </div>
           <!-- Submit Form -->
           <br/>
           <button class="btn btn-lg btn-primary submit"
                   type="submit"
-                  [disabled]="registerForm.invalid">REGISTER
+                  [disabled]="registerForm.invalid">Create account
           </button>
       </div>
     </form>
+</div>
 </div>
 
 </ion-content>

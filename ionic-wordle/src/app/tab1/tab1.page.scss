@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+
 .login-form {
   display: flex;
   justify-content: center;
@@ -16,17 +18,31 @@
   }
 
   .title {
-    font-weight: 500;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: x-large;
+    text-align: center;
     padding-bottom: 2rem;
+    color: seashell;
+    font-family: "Silkscreen";
   }
 
   .submit {
-    font-family:'Montserrat';
-    background: white;
+    font-family:'Arial';
     color: black;
-    font-size: 20px;
     margin: 0 auto;
+    height: 38px;
+    min-width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #d3d6da;
+    font-size: 15px;
   }
+
+  .redir {
+    text-decoration: none;
+    color: salmon;
+  }
+
+
 }

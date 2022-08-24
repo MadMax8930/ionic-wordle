@@ -1,35 +1,21 @@
 import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {WORDS} from './words';
-import {LetterState}  from './type';
+import {Essai, Letter, LetterState}  from './type';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-// Lenght of the word.
 const WORD_LENGTH = 5;
-
-// Number of tries.
 const NUM_TRIES = 6;
 
-// Letter map.
+// Letter map
 const LETTERS = (() => {
-  // letter -> true. Easier to check.
+  // letter -> true
   const ret: {[key: string]: boolean} = {};
   for (let charCode = 97; charCode < 97 + 26; charCode++) {
     ret[String.fromCharCode(charCode)] = true;
   }
   return ret;
 })();
-
-// One try.
-interface Try {
-  letters: Letter[];
-}
-
-// One letter in a try.
-interface Letter {
-  text: string;
-  state: LetterState;
-}
 
 @Component({
   selector: 'app-tab2',
@@ -41,48 +27,29 @@ interface Letter {
 export class Tab2Page {
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
 
-  // Stores all tries.
-  // One try is one row in the UI.
-  readonly tries: Try[] = [];
+  readonly tries: Essai[] = [];  // stores tous les essais (1 essai = 1 row)
 
-  readonly letterState = LetterState;
+  readonly letterState = LetterState; // letterState enum
 
-  // Keyboard rows.
+  readonly currentLetterStates: {[key: string]: LetterState} = {};  // stores le state for the keyboard key
+
   readonly keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace'],
   ];
 
-  // Stores the state for the keyboard key indexed by keys.
-  readonly curLetterStates: {[key: string]: LetterState} = {};
+  infoMsg = '';   // Message shown in the message board
+  fadeOutInfoMessage = false;     // Controls info message's fading-out animation
+  showPopUpContainer = false;     // Pop Up message
+  showPopUp = false;
+  private currentLetterIndex = 0;    // Tracks the current letter index
+  private numberOfSubmittedTries = 0;
+  private targetWord = '';     // Store the target word
+  private won = false;        // Outcome
 
-  // Message shown in the message panel.
-  infoMsg = '';
-
-  // Controls info message's fading-out animation.
-  fadeOutInfoMessage = false;
-
-  showShareDialogContainer = false;
-  showShareDialog = false;
-
-  // Tracks the current letter index.
-  private curLetterIndex = 0;
-
-  // Tracks the number of submitted tries.
-  private numSubmittedTries = 0;
-
-  // Store the target word.
-  private targetWord = '';
-
-  // Won or not.
-  private won = false;
-
-  // Stores the count for each letter from the target word.
-  //
-  // For example, if the target word is "happy", then this map will look like:
-  //
-  // { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
+  // Stores the count for each letter from the target word
+  // 'happy' -> { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
   private targetWordLetterCounts: {[letter: string]: number} = {};
 
   constructor(private router: Router, private authService: AuthService) {
@@ -94,12 +61,11 @@ export class Tab2Page {
       }
       this.tries.push({letters});
     }
-
-    // Get a target word from the word list.
-    const numWords = WORDS.length;
+    // Get target word from the word list
+    const numberOfWords = WORDS.length;
     while (true) {
       // Randomly select a word and check if its length is WORD_LENGTH.
-      const index = Math.floor(Math.random() * numWords);
+      const index = Math.floor(Math.random() * numberOfWords);
       const word = WORDS[index];
       if (word.length === WORD_LENGTH) {
         this.targetWord = word.toLowerCase();
@@ -120,6 +86,7 @@ export class Tab2Page {
     console.log(this.targetWordLetterCounts);
   }
 
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     this.handleClickKey(event.key);
@@ -133,7 +100,7 @@ export class Tab2Page {
 
   // Returns the classes for the given keyboard key based on its state.
   getKeyClass(key: string): string {
-    const state = this.curLetterStates[key.toLowerCase()];
+    const state = this.currentLetterStates[key.toLowerCase()];
     switch (state) {
       case this.letterState.fullMatchState:
         return 'match key';
@@ -156,16 +123,16 @@ export class Tab2Page {
     if (LETTERS[key.toLowerCase()]) {
       // Only allow typing letters in the current try. Don't go over if the
       // current try has not been submitted.
-      if (this.curLetterIndex < (this.numSubmittedTries + 1) * WORD_LENGTH) {
+      if (this.currentLetterIndex < (this.numberOfSubmittedTries + 1) * WORD_LENGTH) {
         this.setLetter(key);
-        this.curLetterIndex++;
+        this.currentLetterIndex++;
       }
     }
     // Handle delete.
     else if (key === 'Backspace') {
       // Don't delete previous try.
-      if (this.curLetterIndex > this.numSubmittedTries * WORD_LENGTH) {
-        this.curLetterIndex--;
+      if (this.currentLetterIndex > this.numberOfSubmittedTries * WORD_LENGTH) {
+        this.currentLetterIndex--;
         this.setLetter('');
       }
     }
@@ -175,11 +142,10 @@ export class Tab2Page {
     }
   }
 
-  handleClickShare() {
-    // 🟩🟨⬜
-    // Copy results into clipboard.
+  handleNewGame() {
+    // 🟩🟨⬜ Copy results into clipboard.
     let clipboardContent = '';
-    for (let i = 0; i < this.numSubmittedTries; i++) {
+    for (let i = 0; i < this.numberOfSubmittedTries; i++) {
       for (let j = 0; j < WORD_LENGTH; j++) {
         const letter = this.tries[i].letters[j];
         switch (letter.state) {
@@ -200,20 +166,21 @@ export class Tab2Page {
     }
     console.log(clipboardContent);
     navigator.clipboard.writeText(clipboardContent);
-    this.showShareDialogContainer = false;
-    this.showShareDialog = false;
+    this.showPopUpContainer = false;
+    this.showPopUp = false;
     this.showInfoMessage('Copied results to clipboard');
+    window.location.reload();
   }
 
   private setLetter(letter: string) {
-    const tryIndex = Math.floor(this.curLetterIndex / WORD_LENGTH);
-    const letterIndex = this.curLetterIndex - tryIndex * WORD_LENGTH;
+    const tryIndex = Math.floor(this.currentLetterIndex / WORD_LENGTH);
+    const letterIndex = this.currentLetterIndex - tryIndex * WORD_LENGTH;
     this.tries[tryIndex].letters[letterIndex].text = letter;
   }
 
+  // Check if user has typed all the letters.
   private async checkCurrentTry() {
-    // Check if user has typed all the letters.
-    const curTry = this.tries[this.numSubmittedTries];
+    const curTry = this.tries[this.numberOfSubmittedTries];
     if (curTry.letters.some(letter => letter.text === '')) {
       this.showInfoMessage('Not enough letters');
       return;
@@ -272,7 +239,7 @@ export class Tab2Page {
 
     // Get the current try.
     const tryContainer =
-        this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
+        this.tryContainers.get(this.numberOfSubmittedTries)?.nativeElement as
         HTMLElement;
     // Get the letter elements.
     const letterEles = tryContainer.querySelectorAll('.letter-container');
@@ -290,14 +257,12 @@ export class Tab2Page {
       await this.wait(180);
     }
 
-    // Save to keyboard key states.
-    //
-    // Do this after the current try has been submitted and the animation above
-    // is done.
+    // Save to keyboard key states
+    // Do this after the current try has been submitted and the animation above is done.
     for (let i = 0; i < WORD_LENGTH; i++) {
       const curLetter = curTry.letters[i];
       const got = curLetter.text.toLowerCase();
-      const curStoredState = this.curLetterStates[got];
+      const curStoredState = this.currentLetterStates[got];
       const targetState = states[i];
       // This allows override state with better result.
       //
@@ -305,11 +270,11 @@ export class Tab2Page {
       // match in the current try, we update the key state to the full match
       // (because its enum value is larger).
       if (curStoredState == null || targetState > curStoredState) {
-        this.curLetterStates[got] = targetState;
+        this.currentLetterStates[got] = targetState;
       }
     }
 
-    this.numSubmittedTries++;
+    this.numberOfSubmittedTries++;
 
     // Check if all letters in the current try are correct.
     if (states.every(state => state === this.letterState.fullMatchState)) {
@@ -321,28 +286,25 @@ export class Tab2Page {
       //   curLetterEle.classList.add('bounce');
       //   await this.wait(160);
       // }
-      this.showShare();
+      this.showAgain();
       return;
     }
 
     // Running out of tries. Show correct answer.
     //
     // If you can hear, my heater is on.. sorry about that!
-    if (this.numSubmittedTries === NUM_TRIES) {
+    if (this.numberOfSubmittedTries === NUM_TRIES) {
       // Don't hide it.
       this.showInfoMessage(this.targetWord.toUpperCase(), false);
-      this.showShare();
+      this.showAgain();
     }
   }
 
   private showInfoMessage(msg: string, hide = true) {
     this.infoMsg = msg;
-    if (hide) {
-      // Hide after 2s.
+    if (hide) { // Hide after 2s
       setTimeout(() => {
-        this.fadeOutInfoMessage = true;
-        // Reset when animation is done.
-        // Sorry, little bit hacky here.
+        this.fadeOutInfoMessage = true; // Resets when anination is finished
         setTimeout(() => {
           this.infoMsg = '';
           this.fadeOutInfoMessage = false;
@@ -359,13 +321,11 @@ export class Tab2Page {
     });
   }
 
-  private showShare() {
+  private showAgain() {
     setTimeout(() => {
-      this.showShareDialogContainer = true;
-      // Wait a tick till dialog container is displayed.
+      this.showPopUpContainer = true;
       setTimeout(() => {
-        // Slide in the share dialog.
-        this.showShareDialog = true;
+        this.showPopUp = true;
       });
     }, 1500);
   }

@@ -6,10 +6,31 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-<ion-content [fullscreen]="true">
 
 
-    <ion-grid>
+  <ion-content [fullscreen]="true">
+    <div class="container">
+      <div class="title-container">
+        <div class="title">Wordle</div>
+        <div class="subtitle">Assad | Lobna | Max</div>
+      </div>
+      </div>
+      <div class="ion-padding">
+        <!-- Theme classes dark, material, bootstrap -->
+        <ngx-datatable
+          class="material"
+          [limit]="8"
+          [rows]="rows"
+          [rowHeight]="50"
+          [columns]="columns"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50">
+        </ngx-datatable>
+      </div>
+    </ion-content>
+
+    <!-- <ion-grid>
       <ng-container *ngFor="let item of boxes">
         <ion-row>
           <div class="parent">
@@ -37,4 +58,4 @@
        </ng-container>
      </ng-container>
     </div>
-  </ion-content>
+  </ion-content> -->
