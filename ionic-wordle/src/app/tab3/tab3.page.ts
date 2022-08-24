@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {WORDS} from './words';
-import {LetterState}  from './enum';
+import {LetterState}  from './type';
 
 // Lenght of the word.
 const WORD_LENGTH = 5;
