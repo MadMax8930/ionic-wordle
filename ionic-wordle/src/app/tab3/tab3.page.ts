@@ -347,7 +347,7 @@ export class Tab3Page {
       setTimeout(() => {
         resolve();
       }, ms);
-    })
+    });
   }
 
   private showShare() {

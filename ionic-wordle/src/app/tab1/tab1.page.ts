@@ -23,7 +23,7 @@ export class Tab1Page implements OnInit {
 
   initForm() {
     this.loginForm = this.formBuilder.group({
-      email: this.formBuilder.control('', Validators.required),
+      username: this.formBuilder.control('', Validators.required),
       password: this.formBuilder.control('', Validators.required)
     });
   }

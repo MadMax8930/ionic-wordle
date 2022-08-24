@@ -31,10 +31,10 @@ export class AuthService {
             console.log(resp);
             localStorage.setItem('TOKEN', resp.accessToken);
             localStorage.setItem('USER_EMAIL', resp.email);
-            localStorage.setItem('USER_NAME', resp.userName);
+            localStorage.setItem('USER_NAME', resp.usermame);
             console.log('Token Save');
             console.log(resp.email);
-            console.log(resp.userName);
+            console.log(resp.usermame);
             return resp;
           }
         )
