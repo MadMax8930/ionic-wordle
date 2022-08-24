@@ -23,7 +23,7 @@ export class Tab0Page implements OnInit {
 
   initForm() {
     this.registerForm = this.formBuilder.group({
-      userName: this.formBuilder.control('', Validators.required),
+      username: this.formBuilder.control('', Validators.required),
       email: this.formBuilder.control('', Validators.required),
       password: this.formBuilder.control('', Validators.required),
     });

@@ -59,7 +59,6 @@ export class Tab2Page {
 
   constructor(private router: Router, private authService: AuthService) {}
 
-
   handleChange(pressed: any){
   // backspace
   if (pressed === 'BACKSPACE') {
