@@ -29,7 +29,7 @@ export class AuthService {
         map(
           (resp: any) => {
             console.log(resp);
-            localStorage.setItem('TOKEN', resp.accessToken);
+            localStorage.setItem('TOKEN_APPLI', resp.accessToken);
             localStorage.setItem('USER_EMAIL', resp.email);
             localStorage.setItem('USER_NAME', resp.usermame);
             console.log('Token Save');
@@ -42,7 +42,7 @@ export class AuthService {
     }
 
     getIdByToken(){
-      const token = localStorage.getItem('TOKEN');
+      const token = localStorage.getItem('TOKEN_APPLI');
       const helper = new JwtHelperService();
       if( token ) {
         const decodedToken = helper.decodeToken(token);
@@ -54,7 +54,7 @@ export class AuthService {
 
 
     logout() {
-      localStorage.removeItem('TOKEN');
+      localStorage.removeItem('TOKEN_APPLI');
       localStorage.removeItem('USER_EMAIL');
       localStorage.removeItem('USER_NAME');
       this.router.navigate(['/tabs/tab1']);
