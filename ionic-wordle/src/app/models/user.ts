@@ -4,3 +4,8 @@ export interface User {
   email: string;
   password: string;
 }
+
+export interface WordFound {
+  id?: number;
+  content: string;
+}

@@ -3,6 +3,7 @@ import {WORDS} from './words';
 import {Essai, Letter, LetterState}  from './type';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { WordFound } from '../models/user';
 
 const WORD_LENGTH = 5;
 const NUM_TRIES = 6;
@@ -26,6 +27,8 @@ const LETTERS = (() => {
 
 export class Tab2Page {
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
+
+  readonly wordsFound: WordFound[];
 
   readonly tries: Essai[] = [];  // stores tous les essais (1 essai = 1 row)
 
@@ -328,5 +331,13 @@ export class Tab2Page {
         this.showPopUp = true;
       });
     }, 1500);
+    // if(this.won === true) {
+    //   this.authService.wordFound().subscribe(
+    //     (res: any) => {
+    //       this.wordsFound = res;
+    //       console.log(this.wordsFound);
+    //     }
+    //   );
+    // }
   }
 }

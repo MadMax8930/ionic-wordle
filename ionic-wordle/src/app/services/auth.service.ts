@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { User } from '../../app/models/user';
+import { User, WordFound } from '../../app/models/user';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -11,6 +11,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
+
+      word :{
+        title : string
+        content : string
+      }
 
   baseUrl: string = environment.urlApi;
 
@@ -40,6 +45,11 @@ export class AuthService {
         )
       );
     }
+
+    wordFound(word: WordFound): Observable<any> {
+      return this.http.post<any>(this.baseUrl + '/wordfound', word);
+    };
+
 
     getIdByToken(){
       const token = localStorage.getItem('TOKEN_APPLI');
