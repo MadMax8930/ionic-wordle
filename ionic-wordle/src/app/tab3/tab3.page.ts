@@ -24,7 +24,7 @@ export class Tab3Page {
       { name: 'Id' },
       { name: 'Content' },
     ];
-    this.http.get<Data>(this.baseUrl + '/word')
+    this.http.get<Data>(this.baseUrl + '/word')  // '/wordfound'
       .subscribe((res) => {
         console.log(res);
         this.rows = res;

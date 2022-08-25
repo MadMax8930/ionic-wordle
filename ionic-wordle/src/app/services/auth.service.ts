@@ -41,10 +41,6 @@ export class AuthService {
       );
     }
 
-    wordFound(word: WordFound): Observable<any> {
-      return this.http.post<any>(this.baseUrl + '/wordfound', word);
-    };
-
 
     getIdByToken(){
       const token = localStorage.getItem('TOKEN_APPLI');

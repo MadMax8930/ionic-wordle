@@ -2,8 +2,9 @@ import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren}
 import {WORDS} from './words';
 import {Essai, Letter, LetterState}  from './type';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { WordService } from '../services/word.service';
 import { WordFound } from '../models/user';
+import { AuthService } from '../services/auth.service';
 
 const WORD_LENGTH = 5;
 const NUM_TRIES = 6;
@@ -332,7 +333,7 @@ export class Tab2Page {
       });
     }, 1500);
     // if(this.won === true) {
-    //   this.authService.wordFound().subscribe(
+    //   this.wordService.wordFound().subscribe(
     //     (res: any) => {
     //       this.wordsFound = res;
     //       console.log(this.wordsFound);
