@@ -29,13 +29,11 @@ const LETTERS = (() => {
 export class Tab2Page {
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
 
-  readonly wordsFound: WordFound[];
+  wordsFound: WordFound[];  // store les mots trouvés
 
-  readonly tries: Essai[] = [];  // stores tous les essais (1 essai = 1 row)
-
-  readonly letterState = LetterState; // letterState enum
-
-  readonly currentLetterStates: {[key: string]: LetterState} = {};  // stores le state for the keyboard key
+  readonly tries: Essai[] = [];  // store tous les essais -> 1 essai = 1 row
+  readonly letterState = LetterState; // store 4 state différents -> enum
+  readonly currentLetterStates: {[key: string]: LetterState} = {};  // store le state pour le keyboard key
 
   readonly keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -43,21 +41,20 @@ export class Tab2Page {
     ['Enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Backspace'],
   ];
 
-  infoMsg = '';   // Message shown in the message board
-  fadeOutInfoMessage = false;     // Controls info message's fading-out animation
-  showPopUpContainer = false;     // Pop Up message
+  infoMsg = '';
+  fadeOutInfoMessage = false;
+  showPopUpContainer = false;
   showPopUp = false;
-  private currentLetterIndex = 0;    // Tracks the current letter index
+  private currentLetterIndex = 0;
   private numberOfSubmittedTries = 0;
-  private targetWord = '';     // Store the target word
-  private won = false;        // Outcome
+  private targetWord = '';
+  private won = false;
 
-  // Stores the count for each letter from the target word
   // 'happy' -> { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
   private targetWordLetterCounts: {[letter: string]: number} = {};
 
-  constructor(private router: Router, private authService: AuthService) {
-    // Populate initial state of "tries".
+  constructor(private router: Router, private authService: AuthService, private wordService: WordService) {
+    // Populate initial state of tries
     for (let i = 0; i < NUM_TRIES; i++) {
       const letters: Letter[] = [];
       for (let j = 0; j < WORD_LENGTH; j++) {
@@ -68,7 +65,7 @@ export class Tab2Page {
     // Get target word from the word list
     const numberOfWords = WORDS.length;
     while (true) {
-      // Randomly select a word and check if its length is WORD_LENGTH.
+      // Randomly select a word and check if its length is 5
       const index = Math.floor(Math.random() * numberOfWords);
       const word = WORDS[index];
       if (word.length === WORD_LENGTH) {
@@ -76,7 +73,7 @@ export class Tab2Page {
         break;
       }
     }
-    // Print it out so we can cheat!:)
+    // To cheat
     console.log('target word: ', this.targetWord);
 
     // Generate letter counts for target word.
@@ -118,7 +115,6 @@ export class Tab2Page {
   }
 
   handleClickKey(key: string) {
-    // Don't process key down when user has won the game.
     if (this.won) {
       return;
     }
@@ -173,6 +169,14 @@ export class Tab2Page {
     this.showPopUpContainer = false;
     this.showPopUp = false;
     this.showInfoMessage('Copied results to clipboard');
+    if(this.won === true) {
+        this.wordService.postWordFound({content: this.targetWord}).subscribe(
+          (res: any) => {
+            this.wordsFound = res;
+            console.log('SEND', this.wordsFound);
+          }
+        );
+      }
     window.location.reload();
   }
 
@@ -182,7 +186,7 @@ export class Tab2Page {
     this.tries[tryIndex].letters[letterIndex].text = letter;
   }
 
-  // Check if user has typed all the letters.
+  // Check if user has typed all the letters
   private async checkCurrentTry() {
     const curTry = this.tries[this.numberOfSubmittedTries];
     if (curTry.letters.some(letter => letter.text === '')) {
@@ -191,28 +195,23 @@ export class Tab2Page {
     }
 
      // Check if the current try is a word in the list.
-    //  const wordFromCurTry =
-    //  curTry.letters.map(letter => letter.text).join('').toUpperCase();
-    //   if (!WORDS.includes(wordFromCurTry)) {
-    //     this.showInfoMessage('Not in word list');
-    //     // Shake the current row.
-    //     const tryContainer =
-    //         this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
-    //         HTMLElement;
-    //     tryContainer.classList.add('shake');
-    //     setTimeout(() => {
-    //       tryContainer.classList.remove('shake');
-    //     }, 500);
-    //     return;
-    //   }
+     const wordFromCurTry =
+     curTry.letters.map(letter => letter.text).join('').toUpperCase();
+      if (!WORDS.includes(wordFromCurTry.toLowerCase())) {
+        this.showInfoMessage('Not in word list');
+        // Shake the current row.
+        const tryyContainer =
+            this.tryContainers.get(this.numberOfSubmittedTries)?.nativeElement as
+            HTMLElement;
+        tryyContainer.classList.add('shake');
+        setTimeout(() => {
+          tryyContainer.classList.remove('shake');
+        }, 500);
+        return;
+      }
 
 
-    // Check if the current try matches the target word.
-
-    // Stores the check results.
-
-    // Clone the counts map. Need to use it in every check with the initial
-    // values.
+    // Check if the current try matches the target word
     const targetWordLetterCounts = {...this.targetWordLetterCounts};
     const states: LetterState[] = [];
     for (let i = 0; i < WORD_LENGTH; i++) {
@@ -220,8 +219,7 @@ export class Tab2Page {
       const curLetter = curTry.letters[i];
       const got = curLetter.text.toLowerCase();
       let state = this.letterState.wrongMatchState;
-      // Need to make sure only performs the check when the letter has not been
-      // checked before.
+      // Need to make sure only performs the check when the letter has not been checked before.
       //
       // For example, if the target word is "happy", then the first "a" user
       // types should be checked, but the second "a" should not, because there
@@ -238,25 +236,17 @@ export class Tab2Page {
     }
     console.log(states);
 
-    // Animate.
-    // Again, there must be a more angular way to do this, but...
-
-    // Get the current try.
-    const tryContainer =
-        this.tryContainers.get(this.numberOfSubmittedTries)?.nativeElement as
-        HTMLElement;
-    // Get the letter elements.
+    // Get current try
+    const tryContainer = this.tryContainers.get(this.numberOfSubmittedTries)?.nativeElement as HTMLElement;
+    // Get letter elements
     const letterEles = tryContainer.querySelectorAll('.letter-container');
     for (let i = 0; i < letterEles.length; i++) {
-      // "Fold" the letter, apply the result (and update the style), then unfold
-      // it.
+      // "Fold" the letter, update style and state
       const curLetterEle = letterEles[i];
       curLetterEle.classList.add('fold');
-      // Wait for the fold animation to finish.
       await this.wait(180);
-      // Update state. This will also update styles.
       curTry.letters[i].state = states[i];
-      // Unfold.
+      // Unfold
       curLetterEle.classList.remove('fold');
       await this.wait(180);
     }
@@ -284,8 +274,9 @@ export class Tab2Page {
     if (states.every(state => state === this.letterState.fullMatchState)) {
       this.showInfoMessage('NICE!');
       this.won = true;
-       // Bounce animation.
+      // Bounce anim
       //  for (let i = 0; i < letterEles.length; i++) {
+
       //   const curLetterEle = letterEles[i];
       //   curLetterEle.classList.add('bounce');
       //   await this.wait(160);
@@ -294,11 +285,8 @@ export class Tab2Page {
       return;
     }
 
-    // Running out of tries. Show correct answer.
-    //
-    // If you can hear, my heater is on.. sorry about that!
+    // No tries left, display correct answer
     if (this.numberOfSubmittedTries === NUM_TRIES) {
-      // Don't hide it.
       this.showInfoMessage(this.targetWord.toUpperCase(), false);
       this.showAgain();
     }
@@ -306,9 +294,9 @@ export class Tab2Page {
 
   private showInfoMessage(msg: string, hide = true) {
     this.infoMsg = msg;
-    if (hide) { // Hide after 2s
+    if (hide) { // Hide after 2secs
       setTimeout(() => {
-        this.fadeOutInfoMessage = true; // Resets when anination is finished
+        this.fadeOutInfoMessage = true; // Resets when anination is finishedd
         setTimeout(() => {
           this.infoMsg = '';
           this.fadeOutInfoMessage = false;
@@ -332,13 +320,5 @@ export class Tab2Page {
         this.showPopUp = true;
       });
     }, 1500);
-    // if(this.won === true) {
-    //   this.wordService.wordFound().subscribe(
-    //     (res: any) => {
-    //       this.wordsFound = res;
-    //       console.log(this.wordsFound);
-    //     }
-    //   );
-    // }
   }
 }

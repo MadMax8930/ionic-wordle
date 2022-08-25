@@ -18,9 +18,13 @@ export class WordService {
     private router: Router,
     ) { }
 
-    getWordFound(word: WordFound): Observable<any> {
-      return this.http.post<any>(this.baseUrl + '/wordfound', word);
-    };
+    getAll() {
+    this.http.get<any>(this.baseUrl + '/word')
+      .subscribe((res) => {
+        console.log(res);
+        return res;
+      });
+    }
 
     postWordFound(word: WordFound): Observable<any> {
       return this.http.post<any>(this.baseUrl + '/wordfound', word)
@@ -29,7 +33,7 @@ export class WordService {
           (resp: any) => {
             console.log(resp);
             console.log('Word sent to the front');
-            console.log(resp.word);
+            console.log(resp.content);
             return resp;
           }
         )

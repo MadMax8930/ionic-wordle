@@ -34,7 +34,7 @@ export class AuthService {
             localStorage.setItem('USER_NAME', resp.username);
             console.log('Token Save');
             console.log(resp.email);
-            console.log(resp.usermame);
+            console.log(resp.username);
             return resp;
           }
         )

@@ -66,7 +66,6 @@
 					animation-duration: 120ms;
 				}
 
-				// Got those colors from the wordle game.
 				&.match {
 					background-color: #6aaa64;
 					border-color: #6aaa64;
@@ -217,6 +216,12 @@
 		}
 	}
 }
+.logout {
+  position: absolute;
+  top: 12.5%;
+  left: 85%;
+  font-size: 25px;
+}
 
 // Animation for entering a letter.
 @keyframes letter-pop {
@@ -270,10 +275,4 @@
 	100% {
 		transform: translateY(0);
 	}
-}
-.logout {
-  position: absolute;
-  top: 15%;
-  left: 90%;
-  font-size: 25px;
 }

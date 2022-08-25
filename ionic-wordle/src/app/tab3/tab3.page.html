@@ -8,7 +8,7 @@
   </ion-header>
 
 
-  <ion-content [fullscreen]="true">
+  <ion-content [fullscreen]="false">
     <div class="container">
       <div class="title-container">
         <div class="title">Wordle</div>
@@ -21,10 +21,11 @@
           class="material"
           [limit]="8"
           [rows]="rows"
-          [rowHeight]="50"
+          [rowHeight]="60"
           [columns]="columns"
           [columnMode]="'force'"
           [headerHeight]="50"
+          [scrollbar]="false"
           [footerHeight]="50">
         </ngx-datatable>
       </div>
