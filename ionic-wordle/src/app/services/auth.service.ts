@@ -12,11 +12,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class AuthService {
 
-      word :{
-        title : string
-        content : string
-      }
-
   baseUrl: string = environment.urlApi;
 
   constructor(
@@ -34,9 +29,9 @@ export class AuthService {
         map(
           (resp: any) => {
             console.log(resp);
-            localStorage.setItem('TOKEN_APPLI', resp.accessToken);
+            localStorage.setItem('TOKEN_APPLI', resp.token);
             localStorage.setItem('USER_EMAIL', resp.email);
-            localStorage.setItem('USER_NAME', resp.usermame);
+            localStorage.setItem('USER_NAME', resp.username);
             console.log('Token Save');
             console.log(resp.email);
             console.log(resp.usermame);
