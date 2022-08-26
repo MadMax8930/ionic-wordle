@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User, WordFound } from '../../app/models/user';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -12,18 +12,20 @@ import { map } from 'rxjs/operators';
 export class WordService {
 
   baseUrl: string = environment.urlApi;
+  word$ = new Subject<Array<any>>();
+  wordSubject$ = new BehaviorSubject<Array<any>>([]);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    ) { }
+  constructor(private http: HttpClient) {
+    this.getAll();
+  }
 
-    getAll() {
-    this.http.get<any>(this.baseUrl + '/word')
-      .subscribe((res) => {
-        console.log(res);
-        return res;
-      });
+   async getAll(): Promise<any> {
+       await this.http.get<any>(this.baseUrl + '/word').subscribe(
+        data => {
+          console.log(data);
+          this.word$.next(data);
+        }
+      );
     }
 
     postWordFound(word: WordFound): Observable<any> {
@@ -32,8 +34,9 @@ export class WordService {
         map(
           (resp: any) => {
             console.log(resp);
-            console.log('Word sent to the front');
+            console.log('Word sent to front');
             console.log(resp.content);
+            this.wordSubject$.next(resp.content);
             return resp;
           }
         )

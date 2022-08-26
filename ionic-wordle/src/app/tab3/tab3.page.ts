@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ViewEncapsulation } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -28,6 +28,7 @@ export class Tab3Page {
       .subscribe((res) => {
         console.log(res);
         this.rows = res;
+        console.log('test', this.rows);
       });
   }
 }

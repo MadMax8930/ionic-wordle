@@ -1,1 +1,2 @@
-export const WORDS = ['earth', 'house','plane', 'crane', 'audio', 'house', 'offer', 'often'];
+export const WORDS = ['earth', 'house','plane', 'crane', 'audio', 'terre', 'house', 'offer', 'often'];
+

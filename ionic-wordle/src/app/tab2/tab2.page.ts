@@ -1,10 +1,11 @@
-import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {WORDS} from './words';
 import {Essai, Letter, LetterState}  from './type';
 import { Router } from '@angular/router';
 import { WordService } from '../services/word.service';
 import { WordFound } from '../models/user';
 import { AuthService } from '../services/auth.service';
+import { Observable, Subscription } from 'rxjs';
 
 const WORD_LENGTH = 5;
 const NUM_TRIES = 6;
@@ -26,9 +27,12 @@ const LETTERS = (() => {
 })
 
 
-export class Tab2Page {
+export class Tab2Page implements OnInit{
+
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
 
+  words: Subscription ;
+  wordsList: Array<any>;
   wordsFound: WordFound[];  // store les mots trouvés
 
   readonly tries: Essai[] = [];  // store tous les essais -> 1 essai = 1 row
@@ -91,6 +95,16 @@ export class Tab2Page {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     this.handleClickKey(event.key);
+  }
+
+  ngOnInit() {
+    this.words = this.wordService.word$.subscribe(data=>{
+      console.log(data);
+      console.log(this.wordsList = data);
+      console.log(this.wordsList);
+      return this.wordsList;
+    });
+    this.wordService.getAll();
   }
 
   logout() {
