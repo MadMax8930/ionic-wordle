@@ -32,7 +32,7 @@ export class Tab2Page implements OnInit{
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
 
   words: Subscription ;
-  wordsList: Array<any>;
+  wordsList: any[];
   wordsFound: WordFound[];  // store les mots trouvés
 
   readonly tries: Essai[] = [];  // store tous les essais -> 1 essai = 1 row
@@ -53,42 +53,49 @@ export class Tab2Page implements OnInit{
   private numberOfSubmittedTries = 0;
   private targetWord = '';
   private won = false;
+  private numberOfWords: any;
 
   // 'happy' -> { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
   private targetWordLetterCounts: {[letter: string]: number} = {};
 
   constructor(private router: Router, private authService: AuthService, private wordService: WordService) {
-    // Populate initial state of tries
-    for (let i = 0; i < NUM_TRIES; i++) {
-      const letters: Letter[] = [];
-      for (let j = 0; j < WORD_LENGTH; j++) {
-        letters.push({text: '', state: this.letterState.pendingState});
-      }
-      this.tries.push({letters});
-    }
-    // Get target word from the word list
-    const numberOfWords = WORDS.length;
-    while (true) {
-      // Randomly select a word and check if its length is 5
-      const index = Math.floor(Math.random() * numberOfWords);
-      const word = WORDS[index];
-      if (word.length === WORD_LENGTH) {
-        this.targetWord = word.toLowerCase();
-        break;
-      }
-    }
-    // To cheat
-    console.log('target word: ', this.targetWord);
-
-    // Generate letter counts for target word.
-    for (const letter of this.targetWord) {
-      const count = this.targetWordLetterCounts[letter];
-      if (count == null) {
-        this.targetWordLetterCounts[letter] = 0;
-      }
-      this.targetWordLetterCounts[letter]++;
-    }
-    console.log(this.targetWordLetterCounts);
+    this.words = this.wordService.word$.subscribe(data => {
+      console.log(data);
+      console.log(this.wordsList = data);
+      console.log(this.wordsList);
+      this.wordsList = this.wordsList.map(((e: any) => e.content));
+        // Populate initial state of tries
+        for (let i = 0; i < NUM_TRIES; i++) {
+          const letters: Letter[] = [];
+          for (let j = 0; j < WORD_LENGTH; j++) {
+            letters.push({text: '', state: this.letterState.pendingState});
+          }
+          this.tries.push({letters});
+        }
+        // Get target word from the word list
+        this.numberOfWords = this.wordsList.length;
+        while (true) {
+          // Randomly select a word and check if its length is 5
+          const index = Math.floor(Math.random() * this.numberOfWords);
+          const word = this.wordsList[index];
+          if (word.length === WORD_LENGTH) {
+            this.targetWord = word.toLowerCase();
+            break;
+          }
+        }
+        // To cheat
+        console.log('target word: ', this.targetWord);
+        // Generate letter counts for target word.
+        for (const letter of this.targetWord) {
+          const count = this.targetWordLetterCounts[letter];
+          if (count == null) {
+            this.targetWordLetterCounts[letter] = 0;
+          }
+          this.targetWordLetterCounts[letter]++;
+        }
+        console.log(this.targetWordLetterCounts);
+      return [this.wordsList,console.log('assadé',this.wordsList)];
+    });
   }
 
 
@@ -98,18 +105,16 @@ export class Tab2Page implements OnInit{
   }
 
   ngOnInit() {
-    this.words = this.wordService.word$.subscribe(data=>{
-      console.log(data);
-      console.log(this.wordsList = data);
-      console.log(this.wordsList);
-      return this.wordsList;
-    });
-    this.wordService.getAll();
+
   }
 
+
   logout() {
+
+    console.log('assadLOGOUT',this.wordsList);
+
     this.authService.logout();
-    this.router.navigate(['/tabs/tab1']);
+    //this.router.navigate(['/tabs/tab1']);
     // window.location.reload();
   };
 
@@ -211,7 +216,7 @@ export class Tab2Page implements OnInit{
      // Check if the current try is a word in the list.
      const wordFromCurTry =
      curTry.letters.map(letter => letter.text).join('').toUpperCase();
-      if (!WORDS.includes(wordFromCurTry.toLowerCase())) {
+      if (!this.wordsList.includes(wordFromCurTry.toLowerCase())) {
         this.showInfoMessage('Not in word list');
         // Shake the current row.
         const tryyContainer =
