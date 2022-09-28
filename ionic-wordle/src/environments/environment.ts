@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlApi : 'http://localhost:8088/api'
+  urlApi : 'https://wordle-simplon.herokuapp.com/api'
 };
 
 /*
