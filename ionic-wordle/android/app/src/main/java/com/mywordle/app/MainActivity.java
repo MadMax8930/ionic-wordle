@@ -1,0 +1,5 @@
+package com.mywordle.app;
+
+import com.getcapacitor.BridgeActivity;
+
+public class MainActivity extends BridgeActivity {}
