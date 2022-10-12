@@ -14,19 +14,15 @@ Accéder à la liste des 200 mots possibles (une fois connecté)
 
 ​
 
-Prototype fonctionnel du jeu sur mobile (Android)
+Prototype fonctionnel du jeu sur mobile (Android Studio)
 
-Appli avec BDD PostgreSQL déploiyée sur Heroku
+Appli avec BDD PostgreSQL déploiyée (Heroku)
 
 API de tous les mots: https://wordle-simplon.herokuapp.com/api/word
 
 Authentification par token
 
-s'enregistrer:
-POST - https://wordle-simplon.herokuapp.com/api/auth/register
-
-se connecter:
-POST - https://wordle-simplon.herokuapp.com/api/auth/login
+(Pour le repo backend, cloner la branche 'dev')
 
 
 
