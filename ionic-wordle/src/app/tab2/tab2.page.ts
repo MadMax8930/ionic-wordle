@@ -31,6 +31,7 @@ export class Tab2Page implements OnInit{
 
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
 
+  userName: any;
   words: Subscription ;
   wordsList: any[];
   wordsFound: WordFound[];  // store les mots trouvés
@@ -104,10 +105,9 @@ export class Tab2Page implements OnInit{
     this.handleClickKey(event.key);
   }
 
-  ngOnInit() {
-
+  ngOnInit(): void {
+    this.userName = localStorage.getItem('USER_NAME');
   }
-
 
   logout() {
 
